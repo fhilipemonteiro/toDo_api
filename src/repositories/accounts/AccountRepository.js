@@ -23,8 +23,12 @@ class AccountRepository {
     };
 
     await mockUsers.push(user);
+  }
 
-    console.log(mockUsers);
+  async login(email) {
+    const [user] = await mockUsers.filter((userObj) => userObj.email === email);
+
+    return user;
   }
 }
 

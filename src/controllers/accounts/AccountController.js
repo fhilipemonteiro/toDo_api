@@ -24,6 +24,26 @@ class AccountController {
 
     return res.status(201).end();
   }
+
+  async login(req, res) {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({ error: 'empty fields' });
+    }
+
+    const user = await AccountRepository.login(email);
+
+    if (!user) {
+      return res.status(400).json({ error: 'email or password invalid' });
+    }
+
+    if (user.password !== password || user.email !== email) {
+      return res.status(400).json({ error: 'email or password invalids' });
+    }
+
+    return res.status(200).end();
+  }
 }
 
 module.exports = new AccountController();
